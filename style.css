@@ -1,187 +1,87 @@
-/* ---------- Páginas e navegação ---------- */
-const pages = Array.from(document.querySelectorAll('.page'));
-const navDots = Array.from(document.querySelectorAll('.nav-dot'));
-let activePage = 0; // start at login
-
-function renderPages() {
-  pages.forEach(p => {
-    const pageIndex = Number(p.dataset.page);
-    p.dataset.active = (pageIndex === activePage).toString();
-    if (pageIndex < activePage) p.dataset.direction = 'left';
-    else p.dataset.direction = 'right';
-  });
-  navDots.forEach(d => d.classList.toggle('active', Number(d.dataset.target) === activePage));
+:root{
+  --accent:#e53935;
+  --muted:#bfbfbf;
+  --bg:#0b0b0c;
+  --glass: rgba(255,255,255,0.03);
 }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, 'Poppins', system-ui; background:linear-gradient(180deg,#060607,#0b0b0c); color:#fff}
+.app-stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
 
-function navigateTo(pageIndex) {
-  activePage = Math.max(0, Math.min(4, pageIndex));
-  renderPages();
-}
+/* Phone frame */
+.phone{ width:380px; height:780px; border-radius:42px; background: linear-gradient(180deg,#0d0d0f,#0b0b0c); box-shadow: 0 35px 80px rgba(0,0,0,0.7), 0 6px 28px rgba(229,57,53,0.06); position:relative; padding:18px; display:flex;align-items:center;justify-content:center; border: 1px solid rgba(255,255,255,0.02); }
+.phone-chrome{ position:absolute; width:100%; top:10px; left:0; display:flex; justify-content:center; pointer-events:none}
+.notch{ width:140px; height:8px; border-radius:8px; background:rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03) }
 
-navDots.forEach(d => d.addEventListener('click', () => navigateTo(Number(d.dataset.target))));
+/* Screen */
+.screen{ width:100%; height:100%; border-radius:30px; overflow:hidden; position:relative; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02) }
+.header{ display:flex; align-items:center; justify-content:space-between; padding:18px 18px 8px 18px }
+.brand{ display:flex; gap:12px; align-items:center }
+.brand-logo{ width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--accent),#ff6b6b); box-shadow: 0 8px 24px rgba(229,57,53,0.12) }
+.title{ font-weight:700; font-size:15px }
+.subtitle{ font-size:12px; color:var(--muted) }
+.btn-icon{ background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--muted); padding:8px 10px; border-radius:10px; cursor:pointer }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ensure pages exist
-  renderPages();
+/* Pages container */
+.pages{ position:absolute; top:78px; left:0; right:0; bottom:78px; overflow:hidden }
+.page{ position:absolute; width:100%; height:100%; padding:16px 18px 20px; transition: transform .45s cubic-bezier(.2,.9,.3,1), opacity .35s; display:flex; flex-direction:column; gap:12px; transform: translateX(100%); opacity:0 }
+.page[data-active="true"]{ transform: translateX(0); opacity:1; z-index:2 }
+.page[data-direction="left"]{ transform: translateX(-100%); opacity:0 }
 
-  // Login button
-  const btnLogin = document.getElementById('btnLogin');
-  btnLogin.addEventListener('click', () => {
-    const user = document.getElementById('loginUser').value.trim();
-    const pass = document.getElementById('loginPass').value.trim();
-    if (!user || !pass) { toast('Preencha usuário e senha (demo)'); return; }
-    document.getElementById('userName').textContent = user;
-    toast('Bem-vindo, ' + user + '!');
-    navigateTo(2);
-  });
+/* Login card */
+.login-card{ margin: auto; max-width:320px; background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)); padding:16px; border-radius:16px; border:1px solid var(--glass); box-shadow: 0 8px 30px rgba(0,0,0,0.6) ; text-align:center }
+.proerd-logo{ display:block; width:84px; height:84px; object-fit:cover; border-radius:10px; margin:-36px auto 8px; box-shadow: 0 10px 30px rgba(229,57,53,0.08); border: 3px solid rgba(0,0,0,0.35) }
+.login-card h2{ color:var(--accent); margin:4px 0 8px; font-size:20px }
+.muted{ color:var(--muted); font-size:13px }
+.field{ display:block; margin:8px 0 }
+.field input, .field select, textarea{ width:100%; padding:12px; border-radius:10px; background:#0f0f10; border:1px solid rgba(255,255,255,0.03); color:#fff }
 
-  // Signup
-  document.getElementById('btnSignup').addEventListener('click', () => {
-    const name = document.getElementById('signupName').value.trim();
-    if (!name) { toast('Digite seu nome (demo)'); return; }
-    document.getElementById('userName').textContent = name;
-    toast('Perfil criado — bem-vindo ' + name + '!');
-    navigateTo(2);
-  });
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:none; cursor:pointer; font-weight:700 }
+.btn.primary{ background: linear-gradient(90deg,var(--accent),#ff6b6b); color:#fff; box-shadow: 0 10px 30px rgba(229,57,53,0.12) }
+.btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted) }
+.btn.small{ padding:8px 10px; font-size:13px; border-radius:8px }
+.row{ display:flex; gap:8px; margin-top:10px }
+.row.space{ display:flex; align-items:center; justify-content:space-between }
+.quick-links{ display:flex; gap:12px; justify-content:center; margin-top:12px }
+.link{ background:transparent; border:none; color:var(--muted); cursor:pointer; text-decoration:underline }
 
-  // Corrige o botão "Entrar como visitante" (leva ao feed)
-  document.getElementById('visitorBtn').addEventListener('click', () => {
-    document.getElementById('userName').textContent = 'Visitante';
-    navigateTo(2);
-    toast('Entrou como visitante');
-  });
+/* Panel / home */
+.panel{ display:flex; flex-direction:column; gap:12px }
+.panel-top{ display:flex; justify-content:space-between; align-items:center }
+.hi{ font-size:16px }
+.card{ background: linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.008)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.02) }
+.card.highlight{ width:100% }
+.card-head{ font-weight:700; margin-bottom:6px }
+.card-body{ color:var(--muted); font-size:13px }
+.card-cta{ display:flex; gap:8px; margin-top:8px }
+.stats-row{ display:flex; gap:8px; margin-top:10px }
+.stat{ background:rgba(255,255,255,0.02); padding:10px; border-radius:10px; text-align:center; flex:1 }
+.stat .big{ font-weight:800; font-size:18px }
+.stat .small{ color:var(--muted); font-size:12px }
 
-  // "Como solicitar PROERD" do login leva à página PROERD
-  document.getElementById('howBtn').addEventListener('click', () => {
-    navigateTo(3);
-  });
+/* feed posts */
+.feed{ display:flex; flex-direction:column; gap:12px; margin-top:8px; overflow:auto; padding-right:8px; max-height:350px }
+.post{ background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(255,255,255,0.02)); padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.02) }
+.post-head{ display:flex; gap:10px; align-items:center; margin-bottom:8px }
+.avatar{ width:44px; height:44px; border-radius:999px; object-fit:cover; border:2px solid rgba(255,255,255,0.04) }
+.post-meta{ display:flex; flex-direction:column }
+.post-meta .name{ font-weight:700 }
+.post-meta .time{ font-size:12px; color:var(--muted) }
+.post-body{ color:var(--muted); font-size:13px; margin-bottom:8px }
+.post-img{ width:100%; height:160px; object-fit:cover; border-radius:8px; margin-top:8px }
 
-  // popula feed com posts iniciais
-  populateFeed();
-});
+/* PROERD page */
+.proerd-card .steps{ display:flex; flex-direction:column; gap:8px; margin-top:8px }
+.steps li{ background:rgba(255,255,255,0.02); padding:10px; border-radius:8px; list-style:none; display:flex; gap:10px; align-items:flex-start }
+.steps li strong{ color:var(--accent); min-width:22px; display:inline-block }
 
-/* ---------- Feed dinâmico (posts de exemplo) ---------- */
-const samplePosts = [
-  {
-    name: "Maria (Profª)",
-    time: "Hoje • 09:24",
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-    text: "Tive uma oficina incrível hoje com 30 alunos. Tivemos reflexões sobre escolhas e respeito.",
-    image: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=800&q=60",
-    comments: [
-      {name: "João", text: "Parabéns! Importante tocar nesses temas desde cedo."},
-      {name: "Ana", text: "Como posso levar isso para minha escola?"}
-    ]
-  },
-  {
-    name: "Voluntário João",
-    time: "2 dias",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    text: "Mutirão de distribuição de panfletos amanhã na praça central. Venha ajudar!",
-    image: null,
-    comments: [{name: "Pedro", text: "Vou comparecer!"}]
-  },
-  {
-    name: "Escola Municipal A",
-    time: "3 dias",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=60",
-    text: "Solicitamos material didático ao PROERD e já recebemos apoio. Alunos engajados!",
-    image: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=60",
-    comments: []
-  },
-  {
-    name: "Lucas (Pai)",
-    time: "Semana passada",
-    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
-    text: "Participei da roda de conversa para pais. Recomendo a todos.",
-    image: null,
-    comments: [{name:"Marta", text:"Onde foi realizada?"}, {name:"Lucas", text:"Na escola João XXIII, próxima terça."}]
-  }
-];
+/* actions */
+.scroll{ overflow:auto; padding-right:10px; max-height:100% }
+textarea{ min-height:100px; resize:none; padding:10px; border-radius:10px; background:#0f0f10; border:1px solid rgba(255,255,255,0.03); color:#fff }
 
-function populateFeed(){
-  const feed = document.getElementById('communityFeed');
-  feed.innerHTML = '';
-  samplePosts.forEach(post => {
-    const postEl = document.createElement('div');
-    postEl.className = 'post';
-
-    const head = document.createElement('div');
-    head.className = 'post-head';
-    const avatar = document.createElement('img');
-    avatar.className = 'avatar';
-    avatar.src = post.avatar;
-    avatar.alt = post.name;
-    const meta = document.createElement('div');
-    meta.className = 'post-meta';
-    meta.innerHTML = `<div class="name">${post.name}</div><div class="time muted">${post.time}</div>`;
-    head.appendChild(avatar);
-    head.appendChild(meta);
-
-    const body = document.createElement('div');
-    body.className = 'post-body';
-    body.textContent = post.text;
-
-    postEl.appendChild(head);
-    postEl.appendChild(body);
-
-    if(post.image){
-      const img = document.createElement('img');
-      img.className = 'post-img';
-      img.src = post.image;
-      img.alt = 'Imagem do post';
-      postEl.appendChild(img);
-    }
-
-    // comments section (preview)
-    if(post.comments && post.comments.length){
-      const ctn = document.createElement('div');
-      ctn.style.marginTop = '8px';
-      post.comments.slice(0,3).forEach(c => {
-        const cm = document.createElement('div');
-        cm.style.fontSize = '13px';
-        cm.style.color = 'var(--muted)';
-        cm.innerHTML = `<strong style="color:#fff">${c.name}:</strong> ${c.text}`;
-        ctn.appendChild(cm);
-      });
-      postEl.appendChild(ctn);
-    }
-
-    feed.appendChild(postEl);
-  });
-}
-
-/* ---------- Utilitários: cópia, envio simulado, download kit, toast ---------- */
-function copyMessage(){
-  const txt = document.getElementById('messageModel')?.value || '';
-  navigator.clipboard?.writeText(txt).then(()=> toast('Mensagem copiada!'), ()=> toast('Não foi possível copiar'));
-}
-
-function simulateSend(){ toast('Mensagem (simulada) enviada à direção da escola'); }
-
-function simulateRequest(){ toast('Solicitação (simulada) registrada. A equipe entrará em contato.') }
-
-function downloadKit(){
-  const content = `Kit informativo PROERD - Demo\nVisite o site da Polícia Militar local para obter material oficial.`;
-  const blob = new Blob([content], {type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'kit-proerd-demo.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  toast('Kit baixado (demo).');
-}
-
-/* ---------- Toast estilizado ---------- */
-function toast(msg){
-  const existing = document.querySelector('.app-toast');
-  if(existing) existing.remove();
-  const box = document.createElement('div');
-  box.className = 'app-toast';
-  box.textContent = msg;
-  Object.assign(box.style, {
-    position:'absolute', bottom:'22px', left:'50%', transform:'translateX(-50%)',
-    background: 'linear-gradient(90deg,#e53935,#ff6b6b)', color:'#fff', padding:'10px 16px',
-    borderRadius:'12px', boxShadow:'0 8px 30px rgba(229,57,53,0.15)', fontWeight:700, zIndex:9999
-  });
-  document.querySelector('.phone').appendChild(box);
-  setTimeout(()=> box.style.opacity = '1', 10);
-  setTimeout(()=> { box.style.opacity = '0'; setTimeout(()=> box.remove(), 400); }, 2000);
-}
+/* nav dots */
+.bottom-nav{ position:absolute; bottom:14px; left:0; right:0; display:flex; justify-content:center; gap:8px; pointer-events:auto }
+.nav-dot{ width:10px; height:10px; border-radius:999px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.03); cursor:pointer }
+.nav-dot.active{ width:34px; border-radius:10px; background: linear-gradient(90deg,var(--accent),#ff8a8a); box-shadow: 0 8px 18px rgba(229,57,53,0.12) }
+.tiny{ font-size:12px; color:var(--muted) }
