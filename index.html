@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunidade PROERD - Conscientização</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="phone">
+    <div class="speaker"></div>
+
+    <!-- LOGIN -->
+    <div class="screen active" id="screen-login">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Proerd.jpg" class="logo-proerd" alt="Logo PROERD">
+      <h2>Bem-vindo!</h2>
+      <p>Participe da comunidade PROERD e aprenda a dizer não às drogas.</p>
+      <input type="text" placeholder="Usuário">
+      <input type="password" placeholder="Senha">
+      <button onclick="goTo('screen-home')">Entrar</button>
+      
+      <div class="login-extra">
+        <button class="visitor-btn">Entrar como visitante</button>
+        <button class="proerd-info" onclick="goTo('screen-proerd')">Como solicitar PROERD</button>
+      </div>
+
+      <button class="link" onclick="goTo('screen-cadastro')">Criar conta</button>
+    </div>
+
+    <!-- CADASTRO -->
+    <div class="screen" id="screen-cadastro">
+      <h2>Cadastro</h2>
+      <input type="text" placeholder="Nome completo">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Senha">
+      <button onclick="goTo('screen-home')">Concluir</button>
+      <button class="link" onclick="goTo('screen-login')">Voltar</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="screen" id="screen-home">
+      <h2>Comunidade PROERD</h2>
+      <p>Você faz parte da luta contra o tráfico!</p>
+
+      <div class="stats">
+        <div><strong>3.215</strong><br>Membros</div>
+        <div><strong>428</strong><br>Ações Locais</div>
+        <div><strong>89</strong><br>Escolas Ativas</div>
+      </div>
+
+      <button onclick="goTo('screen-proerd')">Saiba sobre o PROERD</button>
+      <button onclick="goTo('screen-acao')">Ações Locais</button>
+      <button class="logout" onclick="goTo('screen-login')">Sair</button>
+    </div>
+
+    <!-- PROERD -->
+    <div class="screen" id="screen-proerd">
+      <h2>O que é o PROERD</h2>
+      <div class="carousel">
+        <button class="prev" onclick="changeImage(-1)">‹</button>
+        <img id="carousel-img" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Proerd.jpg" alt="Imagem PROERD">
+        <button class="next" onclick="changeImage(1)">›</button>
+      </div>
+
+      <ol>
+        <li><strong>1️⃣ Entenda:</strong> O PROERD é um programa da Polícia Militar que ensina jovens a viver longe das drogas e da violência.</li>
+        <li><strong>2️⃣ Quem participa:</strong> Alunos, pais, professores e comunidade escolar.</li>
+        <li><strong>3️⃣ Como participar:</strong> Solicite à direção da sua escola ou acesse o site da PM do seu estado.</li>
+        <li><strong>4️⃣ Você aprende:</strong> Autocontrole, empatia, e como resistir à pressão de grupo.</li>
+      </ol>
+
+      <button onclick="goTo('screen-home')">Voltar</button>
+    </div>
+
+    <!-- AÇÕES LOCAIS -->
+    <div class="screen" id="screen-acao">
+      <h2>Ações Locais</h2>
+      <p>Monte grupos de conscientização em sua escola ou bairro.</p>
+      <textarea placeholder="Descreva sua ação aqui..."></textarea>
+      <button onclick="alert('Ideia enviada com sucesso!')">Enviar</button>
+      <button onclick="goTo('screen-home')">Voltar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
