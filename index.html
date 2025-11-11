@@ -1,84 +1,167 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comunidade PROERD - Conscientização</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Comunidade PROERD — Demo</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="phone">
-    <div class="speaker"></div>
-
-    <!-- LOGIN -->
-    <div class="screen active" id="screen-login">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Proerd.jpg" class="logo-proerd" alt="Logo PROERD">
-      <h2>Bem-vindo!</h2>
-      <p>Participe da comunidade PROERD e aprenda a dizer não às drogas.</p>
-      <input type="text" placeholder="Usuário">
-      <input type="password" placeholder="Senha">
-      <button onclick="goTo('screen-home')">Entrar</button>
-      
-      <div class="login-extra">
-        <button class="visitor-btn">Entrar como visitante</button>
-        <button class="proerd-info" onclick="goTo('screen-proerd')">Como solicitar PROERD</button>
+  <div class="app-stage">
+    <div class="phone" role="application" aria-label="App educativo PROERD">
+      <div class="phone-chrome">
+        <div class="notch" aria-hidden></div>
       </div>
 
-      <button class="link" onclick="goTo('screen-cadastro')">Criar conta</button>
-    </div>
+      <div class="screen">
+        <header class="header">
+          <div class="brand">
+            <div class="brand-logo" aria-hidden>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 4v6c0 5-4 9-7 10-3-1-7-5-7-10V6l7-4z" fill="#fff"/></svg>
+            </div>
+            <div>
+              <div class="title">Comunidade PROERD</div>
+              <div class="subtitle">Educação • Prevenção • Ação</div>
+            </div>
+          </div>
+          <button class="btn-icon" id="openMenu" aria-label="Abrir menu">☰</button>
+        </header>
 
-    <!-- CADASTRO -->
-    <div class="screen" id="screen-cadastro">
-      <h2>Cadastro</h2>
-      <input type="text" placeholder="Nome completo">
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Senha">
-      <button onclick="goTo('screen-home')">Concluir</button>
-      <button class="link" onclick="goTo('screen-login')">Voltar</button>
-    </div>
+        <section class="pages" id="pages">
 
-    <!-- HOME -->
-    <div class="screen" id="screen-home">
-      <h2>Comunidade PROERD</h2>
-      <p>Você faz parte da luta contra o tráfico!</p>
+          <!-- PAGE 0 — Login -->
+          <article class="page" id="page-login" data-page="0">
+            <div class="login-card">
+              <img class="proerd-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Proerd.jpg" alt="PROERD logo">
+              <h2>Bem-vindo</h2>
+              <p class="muted">Junte-se à comunidade — informe-se, participe e denuncie com segurança.</p>
 
-      <div class="stats">
-        <div><strong>3.215</strong><br>Membros</div>
-        <div><strong>428</strong><br>Ações Locais</div>
-        <div><strong>89</strong><br>Escolas Ativas</div>
+              <label class="field"><input id="loginUser" type="text" placeholder="Usuário ou e-mail" /></label>
+              <label class="field"><input id="loginPass" type="password" placeholder="Senha" /></label>
+
+              <div class="row">
+                <button class="btn primary" id="btnLogin">Entrar</button>
+                <button class="btn ghost" onclick="navigateTo(1)">Criar conta</button>
+              </div>
+
+              <div class="quick-links">
+                <button class="link" id="visitorBtn">Entrar como visitante</button>
+                <button class="link" id="howBtn">Como solicitar PROERD</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PAGE 1 — Signup -->
+          <article class="page" id="page-signup" data-page="1">
+            <div class="card">
+              <h2>Cadastro</h2>
+              <p class="muted">Crie seu perfil e participe das ações locais.</p>
+              <label class="field"><input id="signupName" type="text" placeholder="Nome completo"></label>
+              <label class="field"><input id="signupEmail" type="email" placeholder="Email"></label>
+              <label class="field"><select id="signupRole">
+                <option value="aluno">Aluno</option>
+                <option value="professor">Professor</option>
+                <option value="responsavel">Responsável</option>
+                <option value="voluntario">Voluntário / ONG</option>
+              </select></label>
+
+              <div class="row">
+                <button class="btn primary" id="btnSignup">Criar perfil</button>
+                <button class="btn ghost" onclick="navigateTo(0)">Voltar</button>
+              </div>
+              <div class="muted tiny">Ao criar o perfil você terá acesso a materiais e convites para eventos.</div>
+            </div>
+          </article>
+
+          <!-- PAGE 2 — Home / Feed -->
+          <article class="page" id="page-home" data-page="2">
+            <div class="panel">
+              <div class="panel-top">
+                <div>
+                  <div class="hi">Olá, <strong id="userName">Visitante</strong></div>
+                  <div class="muted tiny">Membros: <strong>3.215</strong> • Ações: <strong>428</strong></div>
+                </div>
+                <div class="panel-actions">
+                  <button class="btn small" onclick="navigateTo(3)">PROERD</button>
+                  <button class="btn small ghost" onclick="navigateTo(4)">Ações Locais</button>
+                </div>
+              </div>
+
+              <div class="card highlight">
+                <div class="card-head"><strong>Campanha em destaque</strong> — Escolas Seguras</div>
+                <div class="card-body">Oficinas com alunos, atividades para pais e material pedagógico gratuito.</div>
+                <div class="card-cta">
+                  <button class="btn primary" onclick="openGallery()">Ver galeria</button>
+                  <button class="btn ghost" onclick="navigateTo(4)">Inscrever Escola</button>
+                </div>
+              </div>
+
+              <div class="feed" id="communityFeed" aria-live="polite">
+                <!-- posts serão populados via JS -->
+              </div>
+
+            </div>
+          </article>
+
+          <!-- PAGE 3 — PROERD -->
+          <article class="page" id="page-proerd" data-page="3">
+            <div class="card proerd-card">
+              <div class="row space">
+                <h2>PROERD — Passo a passo</h2>
+                <button class="btn ghost" onclick="navigateTo(2)">Voltar</button>
+              </div>
+
+              <ol class="steps">
+                <li><strong>1.</strong> Entenda: Programa da Polícia Militar para prevenir drogas e violência entre jovens.</li>
+                <li><strong>2.</strong> Participantes: Alunos, professores e famílias.</li>
+                <li><strong>3.</strong> Solicitação: Procure a direção da escola e o comando local da PM / PROERD.</li>
+                <li><strong>4.</strong> Aulas: Dinâmicas, atividades e certificado.</li>
+              </ol>
+
+              <div class="card-cta" style="margin-top:10px">
+                <button class="btn primary" onclick="downloadKit()">Baixar kit informativo (demo)</button>
+                <button class="btn ghost" onclick="simulateRequest()">Solicitar PROERD (simulado)</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PAGE 4 — Ações Locais -->
+          <article class="page" id="page-action" data-page="4">
+            <div class="card scroll">
+              <div class="row space">
+                <h2>Ações Locais</h2>
+                <button class="btn ghost" onclick="navigateTo(2)">Voltar</button>
+              </div>
+
+              <h3>Como montar um grupo local</h3>
+              <ol class="muted">
+                <li>Reúna pais, professores e líderes comunitários.</li>
+                <li>Defina metas (divulgação, apoio a vítimas, oficinas).</li>
+                <li>Procure parceria com a direção da escola e PROERD local.</li>
+                <li>Agende treinamentos e registre resultados na comunidade.</li>
+              </ol>
+
+              <h3>Modelo de mensagem para a escola</h3>
+              <textarea id="messageModel">Prezados, gostaríamos de manifestar interesse em implementar o PROERD/atividades educativas na Escola X. Atenciosamente, Grupo de Pais / Comunidade.</textarea>
+
+              <div class="row">
+                <button class="btn primary" onclick="copyMessage()">Copiar mensagem</button>
+                <button class="btn ghost" onclick="simulateSend()">Simular envio</button>
+              </div>
+
+            </div>
+          </article>
+
+        </section>
+
+        <nav class="bottom-nav" aria-hidden>
+          <button class="nav-dot" data-target="0" title="Login"></button>
+          <button class="nav-dot" data-target="1" title="Cadastro"></button>
+          <button class="nav-dot" data-target="2" title="Painel"></button>
+          <button class="nav-dot active" data-target="3" title="PROERD"></button>
+          <button class="nav-dot" data-target="4" title="Ações"></button>
+        </nav>
       </div>
-
-      <button onclick="goTo('screen-proerd')">Saiba sobre o PROERD</button>
-      <button onclick="goTo('screen-acao')">Ações Locais</button>
-      <button class="logout" onclick="goTo('screen-login')">Sair</button>
-    </div>
-
-    <!-- PROERD -->
-    <div class="screen" id="screen-proerd">
-      <h2>O que é o PROERD</h2>
-      <div class="carousel">
-        <button class="prev" onclick="changeImage(-1)">‹</button>
-        <img id="carousel-img" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Proerd.jpg" alt="Imagem PROERD">
-        <button class="next" onclick="changeImage(1)">›</button>
-      </div>
-
-      <ol>
-        <li><strong>1️⃣ Entenda:</strong> O PROERD é um programa da Polícia Militar que ensina jovens a viver longe das drogas e da violência.</li>
-        <li><strong>2️⃣ Quem participa:</strong> Alunos, pais, professores e comunidade escolar.</li>
-        <li><strong>3️⃣ Como participar:</strong> Solicite à direção da sua escola ou acesse o site da PM do seu estado.</li>
-        <li><strong>4️⃣ Você aprende:</strong> Autocontrole, empatia, e como resistir à pressão de grupo.</li>
-      </ol>
-
-      <button onclick="goTo('screen-home')">Voltar</button>
-    </div>
-
-    <!-- AÇÕES LOCAIS -->
-    <div class="screen" id="screen-acao">
-      <h2>Ações Locais</h2>
-      <p>Monte grupos de conscientização em sua escola ou bairro.</p>
-      <textarea placeholder="Descreva sua ação aqui..."></textarea>
-      <button onclick="alert('Ideia enviada com sucesso!')">Enviar</button>
-      <button onclick="goTo('screen-home')">Voltar</button>
     </div>
   </div>
 
